@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="cds_pos_salesperson.OrderlineSalesperson"
+        t-inherit="point_of_sale.Orderline"
+        t-inherit-mode="extension"
+        owl="1">
+
+        <xpath expr="//ul[contains(@class,'info-list')]" position="inside">
+            <li class="salesperson small text-muted">
+                Salesperson:
+                <span class="spname">
+                    <t t-esc="line.salesperson_name"/>
+                </span>
+            </li>
+            <button class="btn btn-light btn-sm"
+                t-on-click="() => this.onClickLineSalesperson()">
+                <i class="fa fa-user"/> Change
+            </button>
+        </xpath>
+
+    </t>
+</templates>
