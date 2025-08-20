@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="cds_pos_salesperson.OrderWidget_TableOnReceipt"
+        t-inherit="point_of_sale.OrderWidget"
+        t-inherit-mode="extension"
+        owl="1">
+        <xpath expr="//div[contains(@class,'order-container')]" position="replace">
+            <div t-if="!props.editable" t-ref="scrollable" class="order-container bg-view overflow-y-auto flex-grow-1 d-flex flex-column text-start">
+                <table class="receipt-lines-table w-100">
+                    <thead>
+                        <tr>
+                            <th class="text-start">Item</th>
+                            <th class="text-end">Salesperson</th>
+                            <th class="text-end">Qty</th>
+                            <th class="text-end">Unit Price</th>
+                            <th class="text-end">Disc</th>
+                            <th class="text-end">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="props.lines" t-as="line" t-key="line_index">
+                            <tr>
+                                <td class="text-start">
+                                    <t t-set="name" t-value="line.productName || line.name"/>
+                                    <t t-if="name">
+                                        <t t-if="name.length > 12">
+                                            <div><t t-esc="name.substring(0, 12)"/></div>
+                                            <div><t t-esc="name.substring(12)"/></div>
+                                        </t>
+                                        <t t-else="">
+                                            <t t-esc="name"/>
+                                        </t>
+                                    </t>
+                                </td>
+
+                                <td class="text-end">
+                                    <t t-set="person" t-value="line.salesperson_name"/>
+                                    <t t-if="person">
+                                        <t t-if="person.length > 12">
+                                            <div><t t-esc="person.substring(0, 12)"/></div>
+                                            <div><t t-esc="person.substring(12)"/></div>
+                                        </t>
+                                        <t t-else="">
+                                            <t t-esc="person"/>
+                                        </t>
+                                    </t>
+                                </td>
+
+                                <td class="text-end">
+                                    <t t-esc="Math.ceil(line.get_quantity ? line.get_quantity() : (line.qty || line.quantity || 0))"/>
+                                </td>
+
+                                <td class="text-end">
+                                    <t t-esc="Math.ceil(line.price.replace('$', '').replace(',', ''))"/>
+                                </td>
+
+                                <td class="text-end">
+                                    <t t-if="line.discount"><t t-esc="line.discount"/>%</t>
+                                    <t t-if="!line.discount">-</t>
+                                </td>
+
+                                <td class="text-end">
+                                    <t t-esc="Math.ceil(line.price.replace('$', '').replace(',', ''))"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+
+            <div t-else="" t-ref="scrollable" class="order-container bg-view overflow-y-auto flex-grow-1 d-flex flex-column text-start">
+                <t t-foreach="props.lines" t-as="line" t-key="line_index">
+                    <t t-slot="default" line="line"/>
+                </t>
+            </div>
+        </xpath>
+    </t>
+</templates>

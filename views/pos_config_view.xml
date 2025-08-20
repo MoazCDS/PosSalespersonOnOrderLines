@@ -7,6 +7,7 @@
             <xpath expr="//div[@id='title']" position="after">
                 <group>
                     <field name="salesperson_ids" widget="many2many_tags"/>
+                    <field name="qrcode"/>
                 </group>
             </xpath>
         </field>
